@@ -13,7 +13,8 @@ brush_fires_clean <- brush_fires %>%
 
 brush_fires_monthly <- brush_fires_clean %>% 
   group_by(month) %>% 
-  summarize(brush_fires = n())
+  summarize(brush_fires = n()) %>% 
+  mutate(month_name = month(month))
 
 write_csv(brush_fires_monthly %>% 
             filter(month >= as.Date("2015-01-01")), "brush_fires_monthly.csv")
@@ -35,8 +36,8 @@ ggplot(brush_fires_yearly)+
 twentyfour_fires <- brush_fires_clean %>% 
   filter(incident_datetime >= "2024-01-01")
 
-zips <- twentyfour_fires %>% 
-  group_by(zipcode) %>% 
+cd <- twentyfour_fires %>% 
+  group_by(communitydistrict) %>% 
   summarize(fires = n())
 
 write_csv(zips, "fires_by_zip_24.csv")
